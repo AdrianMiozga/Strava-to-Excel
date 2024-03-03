@@ -48,7 +48,8 @@ def main():
 
         page += 1
 
-    with open("data.txt", "w", encoding="UTF-8") as file:
+    with open("data.csv", "w", encoding="UTF-8") as file:
+        file.write("Przejechane\n")
         file.write(str(round(meters / 1000)))
 
 
