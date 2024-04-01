@@ -69,7 +69,7 @@ def main():
         page += 1
 
     with open("data.csv", "w", encoding="UTF-8") as file:
-        file.write("Przejechane\n")
+        file.write("Distance\n")
         file.write(str(round(meters / 1000)))
 
     print(f"Data updated. New km = {round(meters / 1000)}")
