@@ -1,5 +1,6 @@
 import calendar
 import json
+import webbrowser
 from datetime import datetime
 
 from requests_oauthlib import OAuth2Session
@@ -23,8 +24,7 @@ def main():
         "https://www.strava.com/oauth/authorize"
     )
 
-    # TODO: Auto open browser
-    print(f"Please go to {authorization_url} and authorize access.")
+    webbrowser.open(authorization_url)
     authorization_response = input("Enter the full callback URL: ")
 
     oauth.fetch_token(
