@@ -2,16 +2,37 @@ import calendar
 import json
 from datetime import datetime
 
-import requests
+from requests_oauthlib import OAuth2Session
 
 
 def main():
     with open("python/config.json", "r", encoding="UTF-8") as file:
-        token = json.load(file).get("token")
+        contents = json.load(file)
 
-    headers = {
-        "Authorization": f"Bearer {token}",
-    }
+        client_id = contents.get("client_id")
+        client_secret = contents.get("client_secret")
+
+    # TODO: Implement refreshing token
+    oauth = OAuth2Session(
+        client_id,
+        redirect_uri="https://localhost/exchange_token",
+        scope=["read,activity:read_all"],
+    )
+
+    authorization_url, _ = oauth.authorization_url(
+        "https://www.strava.com/oauth/authorize"
+    )
+
+    # TODO: Auto open browser
+    print(f"Please go to {authorization_url} and authorize access.")
+    authorization_response = input("Enter the full callback URL: ")
+
+    oauth.fetch_token(
+        "https://www.strava.com/api/v3/oauth/token",
+        authorization_response=authorization_response,
+        client_secret=client_secret,
+        include_client_id=True,
+    )
 
     time = datetime(int(datetime.now().strftime("%Y")), 1, 1, 0, 0, 0)
     timestamp = calendar.timegm(time.timetuple())
@@ -26,9 +47,8 @@ def main():
             "per_page": 200,
         }
 
-        response = requests.get(
+        response = oauth.get(
             "https://www.strava.com/api/v3/athlete/activities",
-            headers=headers,
             params=params,
             timeout=5,
         )
@@ -51,6 +71,8 @@ def main():
     with open("data.csv", "w", encoding="UTF-8") as file:
         file.write("Przejechane\n")
         file.write(str(round(meters / 1000)))
+
+    print(f"Data updated. New km = {round(meters / 1000)}")
 
 
 if __name__ == "__main__":
