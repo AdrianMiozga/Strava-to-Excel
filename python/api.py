@@ -72,7 +72,7 @@ def main():
         file.write("Distance\n")
         file.write(str(round(meters / 1000)))
 
-    print(f"Data updated. New km = {round(meters / 1000)}")
+    print(f"Data updated. New distance {round(meters / 1000)} km")
 
 
 if __name__ == "__main__":
