@@ -5,11 +5,12 @@ from datetime import datetime
 
 from requests_oauthlib import OAuth2Session
 
-PERSISTENCE_FILE = "python/persistence.json"
+PERSISTENCE_FILE = "persistence.json"
+CONFIG_FILE = "config.json"
 
 
 def main():
-    with open("python/config.json", "r", encoding="UTF-8") as file:
+    with open(CONFIG_FILE, "r", encoding="UTF-8") as file:
         contents = json.load(file)
 
         client_id = contents.get("client_id")
