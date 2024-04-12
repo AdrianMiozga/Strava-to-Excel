@@ -13,4 +13,4 @@
 
 3. Run `main.py`.
 
-4. Load data in Excel using `Data` > `From File/CSV`.
+4. Load data in Excel using `Data` > `From File/CSV`. Example M code can be found in [`query.pq`](query.pq).
